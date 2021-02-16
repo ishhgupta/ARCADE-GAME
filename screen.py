@@ -10,7 +10,7 @@ class Screen:
         return self.__grid
 
     def create_bg(self,grid):
-        print("\n")
+        print()
         # print("\n")
         
         self.__grid = grid

@@ -28,13 +28,6 @@ class unbreakable(Brick):
         self._colnum = c
         self._brick = np.tile(Back.RED + ' ',BRICK_LENGTH)
     
-class pow4(Brick):
-    def __init__(self, strength,r,c):
-        super().__init__(strength)
-        self._rownum = r
-        self._colnum = c
-        self._brick = np.tile(Back.MAGENTA + ' ',BRICK_LENGTH)
-
 class pow3(Brick):
     def __init__(self, strength,r,c):
         super().__init__(strength)
@@ -47,7 +40,7 @@ class pow2(Brick):
         super().__init__(strength)
         self._rownum = r
         self._colnum = c
-        self._brick = np.tile(Back.GREEN + ' ',BRICK_LENGTH)
+        self._brick = np.tile(Back.YELLOW + ' ',BRICK_LENGTH)
     
 
 class pow1(Brick):
@@ -55,17 +48,14 @@ class pow1(Brick):
         super().__init__(strength)
         self._rownum = r
         self._colnum = c
-        self._brick = np.tile(Back.YELLOW + ' ',BRICK_LENGTH)
+        self._brick = np.tile(Back.WHITE + ' ',BRICK_LENGTH)
   
 
 def generateBrick(grid):
     for i in range (20):
         for j in range(START_C, END_C, BRICK_LENGTH):
-            strength = random.randint(1,6)
-            # strength = 6
-            if strength == 4:
-                obj_Brick = pow4(strength, START_R+i,j)
-            elif strength == 3:
+            strength = random.randint(1,4)
+            if strength == 3:
                 obj_Brick = pow3(strength, START_R+i,j)
             elif strength == 2:
                 obj_Brick = pow2(strength , START_R+i,j)

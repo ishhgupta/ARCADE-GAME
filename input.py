@@ -1,9 +1,11 @@
-"""Defining input class."""
-""" Module to take input """
+''' Module to take input '''
+'''Defining input class.'''
+
 import sys
 import termios
 import tty
 import signal
+
 
 class Get:
     """Class to get input."""
@@ -12,6 +14,7 @@ class Get:
         """Defining __call__."""
         fd = sys.stdin.fileno()
         old_settings = termios.tcgetattr(fd)
+        # tty.setcbreak(fd)
         try:
             tty.setraw(sys.stdin.fileno())
             ch = sys.stdin.read(1)

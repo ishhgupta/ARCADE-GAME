@@ -2,7 +2,7 @@ from colorama import init,Fore,Back,Style
 import numpy as np
 init(autoreset = True)
 print(Fore.RED + 'some red text')
-brick = Back.RED+ ' '
+brick = Back.RED + ' '
 print(brick)
 print(Style.BRIGHT + 'and in dim text')
 # print(Style.RESET_ALL)
