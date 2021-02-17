@@ -32,10 +32,5 @@ class Paddle:
         grid[PADDLE_ROW, self.__colnum:self.__colnum+PADDLE_LENGTH] = self.__paddle
 
 
-    def movePaddle(self,dirn,grid):
-        grid[self.__rownum,self.__colnum:self.__colnum + PADDLE_LENGTH] = ' '
-        grid[PADDLE_ROW, self.__colnum + dirn:self.__colnum+dirn+PADDLE_LENGTH] = self.__paddle
-        self.__colnum = self.__colnum + dirn
-    
     def getColnum(self):
         return self.__colnum

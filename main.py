@@ -22,7 +22,6 @@ obj_Paddle = Paddle()
 obj_Paddle.placePaddle(grid)
 
 obj_Ball = Ball()
-obj_Ball.placeBall(grid)
 
 
 var = Get()
@@ -38,7 +37,12 @@ while True:
         obj_Paddle.movePaddleLeft(grid)
     elif letter == "d" or letter == "D":
         obj_Paddle.movePaddleRight(grid)
-    obj_Ball.moveBall(grid)
+    elif letter == "u"  or letter == "U":
+        obj_Ball.release(False)
+    if(obj_Ball.ifStuck() == False):
+        obj_Ball.moveBall(grid,obj_Paddle)
+    else:
+        obj_Ball.stickBall(grid,obj_Paddle)
     print("\033[0;0H")
     # print("\033[%d;%dH" % (0, 0))
     obj_Screen.create_bg(grid)

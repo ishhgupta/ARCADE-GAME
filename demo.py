@@ -90,5 +90,5 @@ ob = A()
 ob.change()
 
 ob2 = A()
-ans = ob2.getVal(ob)
+ans = ob2.getVal(ob2)
 print(ans)
