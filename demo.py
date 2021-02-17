@@ -21,27 +21,30 @@ for i in range (5):
 
 print('\n')
 
-class Brick:
-    def __init__(self,strength):
-        self.__num = 2
-        self.__strength = strength
+# class Brick:
+#     def __init__(self,strength):
+#         self.__num = 2
+#         self.__strength = strength
     
-    # def result(self):
-    #     print(self.__num)
-        # print(self.__strength)
+#     # def result(self):
+#     #     print(self.__num)
+#         # print(self.__strength)
 
-class chotiBrick(Brick):
-    def __init__(self, strength):
-        super().__init__(strength)
-        # self.__r = self.__num
-        self.__strength = strength
-        
-    def result(self):
-        # print(self.__r)
-        print( self.__strength)
+# class chotiBrick(Brick):
+#     def __init__(self, strength):
+#         super().__init__(strength)
+#         # self.__r = self.__num
+#         self.__strength = strength
+    
+#     def printResult(self,num):
+#         print(num)  
+    
+#     def result(self):
+#         # print(self.__r)
+#         chotiBrick(5).printResult(5000)
 
-obj = chotiBrick(4)
-obj.result()
+# obj = chotiBrick(4)
+# obj.result()
 
 print(Fore.BLACK + 'BLACK')
 print(Fore.BLUE + 'BLUE')
@@ -66,3 +69,26 @@ colors = dict(Back.__dict__.items())
 
 for color in colors.keys():
     print(colors[color] + f"{color}")
+
+
+
+print('\n' )
+print("demo starts from here")
+class A:
+    def __init__(self):
+        self.__var = 2
+    
+    def change(self):
+        self.__var = 4
+    def get(self):
+        return self.__var
+    def getVal(self,ob):
+        return ob.get()
+
+
+ob = A()
+ob.change()
+
+ob2 = A()
+ans = ob2.getVal(ob)
+print(ans)

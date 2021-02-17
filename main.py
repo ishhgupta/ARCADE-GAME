@@ -4,8 +4,6 @@ import os
 import time
 import signal
 import random
-from time import sleep
-
 
 from headerfile import *
 from screen import Screen
@@ -30,10 +28,9 @@ obj_Ball.placeBall(grid)
 var = Get()
 os.system('clear')
 while True:
-    # print("\033[0;0H")
     # print('\033c')
-    # letter = input_to(Get())
-    letter = input_to(var)
+    letter = input_to(Get())
+    # letter = input_to(var)
     if letter == "q":
         print("Quit!!")
         break
@@ -41,6 +38,8 @@ while True:
         obj_Paddle.movePaddleLeft(grid)
     elif letter == "d" or letter == "D":
         obj_Paddle.movePaddleRight(grid)
-    print("\033[%d;%dH" % (0, 0))
+    obj_Ball.moveBall(grid)
+    print("\033[0;0H")
+    # print("\033[%d;%dH" % (0, 0))
     obj_Screen.create_bg(grid)
    
