@@ -92,3 +92,8 @@ ob.change()
 ob2 = A()
 ans = ob2.getVal(ob2)
 print(ans)
+
+print("temp1")
+for i in range(1,2):
+    print("temp")
+    print(i)

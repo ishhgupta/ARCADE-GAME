@@ -1,5 +1,3 @@
-# from myGame.headerfile import PADDLE_ROW
-# from myGame.input import input_to
 import os
 import time
 import signal
@@ -22,15 +20,28 @@ obj_Paddle = Paddle()
 obj_Paddle.placePaddle(grid)
 
 obj_Ball = Ball()
+obj_Ball.stickBall(grid,obj_Paddle)
 
-
-var = Get()
 os.system('clear')
+
+print()
+for i in range(3):
+    for j in range(WIDTH):
+        print(Back.MAGENTA + ' ', end='')
+    print()
+print(Back.RESET)
+
+inpChar = Get()
+inpChar.hide_cursor()
+os.system('stty -echo')
+    
 while True:
     # print('\033c')
-    letter = input_to(Get())
-    # letter = input_to(var)
+    # letter = input_to(Get())
+    letter = input_to(inpChar)
     if letter == "q":
+        inpChar.show_cursor()
+        os.system('stty echo')
         print("Quit!!")
         break
     elif letter == "a" or letter == "A":
@@ -43,7 +54,19 @@ while True:
         obj_Ball.moveBall(grid,obj_Paddle)
     else:
         obj_Ball.stickBall(grid,obj_Paddle)
-    print("\033[0;0H")
     # print("\033[%d;%dH" % (0, 0))
+    print("\033[0;0H")
+    print()
+    print(Fore.WHITE + Back.MAGENTA + "SCORE:" , end = "\t\t\t\t")
+    print(Fore.WHITE + Back.MAGENTA + "TIME:",end = "\t\t\t\t")
+    print(Fore.WHITE + Back.MAGENTA + "LIVES:")
+    print()
     obj_Screen.create_bg(grid)
+    time.sleep(0.03)
+inpChar.show_cursor()
+
+# for brick in brickComplex:
+#     print(brick.getRownum(), end=' ')
+#     print(brick.getColnum())
+
    

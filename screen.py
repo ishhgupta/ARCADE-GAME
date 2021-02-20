@@ -10,16 +10,15 @@ class Screen:
         return self.__grid
 
     def create_bg(self,grid):
-        print()
         # print("\n")
         
         self.__grid = grid
         for i in range(HEIGHT):
             for j in range(WIDTH):
-                print(Back.BLACK + self.__grid[i][j], end = '')
+                print(Back.RESET + self.__grid[i][j], end = '')
                 # print(grid[i][j], end = '')
             print()
-
+        self.__grid[HEIGHT-2:HEIGHT,0:WIDTH] = Back.MAGENTA + ' '
     # def change_grid(self,ch,x,y):
 
 

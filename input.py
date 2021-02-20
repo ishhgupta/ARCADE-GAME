@@ -21,6 +21,13 @@ class Get:
         finally:
             termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
         return ch
+    def hide_cursor(self):
+        sys.stdout.write("\033[?25l")
+        sys.stdout.flush()
+
+    def show_cursor(self):
+        sys.stdout.write("\033[?25h")
+        sys.stdout.flush()
 
 
 class AlarmException(Exception):

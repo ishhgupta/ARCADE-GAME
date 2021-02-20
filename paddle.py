@@ -34,3 +34,4 @@ class Paddle:
 
     def getColnum(self):
         return self.__colnum
+    

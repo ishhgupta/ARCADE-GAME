@@ -3,7 +3,7 @@ import numpy as np
 init(autoreset=True)
 
 # dimensions
-HEIGHT = 50
+HEIGHT = 40
 WIDTH = 140
 # WIDTH = 142
 # HEIGHT = 35

@@ -20,6 +20,14 @@ class Brick:
     def placeBrick(self,grid):
         grid[self._rownum, self._colnum : self._colnum + BRICK_LENGTH] = self._brick
     
+    def getRownum(self):
+        return self._rownum
+    def getColnum(self):
+        return self._colnum
+    
+    # def changeColor(self):
+
+    
 
 class unbreakable(Brick):
     def __init__(self, strength,r,c):
@@ -49,10 +57,11 @@ class pow1(Brick):
         self._rownum = r
         self._colnum = c
         self._brick = np.tile(Back.WHITE + ' ',BRICK_LENGTH)
-  
+
+brickStructure = []  
 
 def generateBrick(grid):
-    for i in range (20):
+    for i in range (15):
         for j in range(START_C, END_C, BRICK_LENGTH):
             strength = random.randint(1,4)
             if strength == 3:
@@ -63,6 +72,7 @@ def generateBrick(grid):
                 obj_Brick = pow1(strength , START_R+i,j)
             else:
                 obj_Brick = unbreakable(strength , START_R+i,j)
+            brickStructure.append(obj_Brick)
             obj_Brick.placeBrick(grid)
 
 
