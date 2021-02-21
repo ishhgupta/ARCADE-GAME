@@ -21,31 +21,6 @@ for i in range (5):
 
 print('\n')
 
-# class Brick:
-#     def __init__(self,strength):
-#         self.__num = 2
-#         self.__strength = strength
-    
-#     # def result(self):
-#     #     print(self.__num)
-#         # print(self.__strength)
-
-# class chotiBrick(Brick):
-#     def __init__(self, strength):
-#         super().__init__(strength)
-#         # self.__r = self.__num
-#         self.__strength = strength
-    
-#     def printResult(self,num):
-#         print(num)  
-    
-#     def result(self):
-#         # print(self.__r)
-#         chotiBrick(5).printResult(5000)
-
-# obj = chotiBrick(4)
-# obj.result()
-
 print(Fore.BLACK + 'BLACK')
 print(Fore.BLUE + 'BLUE')
 print(Fore.CYAN + 'CYAN')
@@ -97,3 +72,11 @@ print("temp1")
 for i in range(1,2):
     print("temp")
     print(i)
+
+print("arrrrrrraayyyy")
+array = [2,4,5,7,8,9]
+for i in range(10):
+    for i in array:
+        array.remove(i)
+        print(array)
+        break

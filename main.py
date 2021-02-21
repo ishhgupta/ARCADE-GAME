@@ -9,6 +9,7 @@ from bricks import *
 from paddle import *
 from ball import *
 from input import *
+from powerup import *
 
 
 obj_Screen = Screen()
@@ -38,6 +39,7 @@ os.system('stty -echo')
 while True:
     # print('\033c')
     # letter = input_to(Get())
+    printBricks(grid)
     letter = input_to(inpChar)
     if letter == "q":
         inpChar.show_cursor()
@@ -54,6 +56,8 @@ while True:
         obj_Ball.moveBall(grid,obj_Paddle)
     else:
         obj_Ball.stickBall(grid,obj_Paddle)
+    placePowerups(grid)
+    detectPowerups(grid,obj_Paddle)
     # print("\033[%d;%dH" % (0, 0))
     print("\033[0;0H")
     print()

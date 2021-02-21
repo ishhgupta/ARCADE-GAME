@@ -2,6 +2,7 @@ import random
 from headerfile import *
 from paddle import *
 from bricks import *
+from powerup import *
 
 class Ball:
     def __init__(self):
@@ -50,14 +51,20 @@ class Ball:
 
 
     def ballBrickCollision(self,temp_row,temp_col):
-        for brick in brickStructure :
+        for brick in brickStructure:
+            if brick.getStrength() == 0:
+                continue
+            
             if self.checkCollision(temp_row,temp_col,brick):
+                if brick.getStrength()==-1:
+                    explosion()
+                brick.changeColor()
+                # if brick.getStrength() == 0 or brick.getStrength()==1:
+                if brick.getStrength() == 0 :
+                    addPowerups(self.__rownum,self.__colnum)
+                    # brickStructure.remove(brick)
+                # print(activePowerups)   
                 self.__yspeed = -1*(self.__yspeed)
-                # exit()
-                # if self.__xspeed == 1 or self.__xspeed == -1:
-                #     print("collided")
-                # else :
-                #     print("collided with greater velocity")
                 break
         
     def moveBall(self,grid,obj_Paddle):

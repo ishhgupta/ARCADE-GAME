@@ -16,7 +16,6 @@ class Screen:
         for i in range(HEIGHT):
             for j in range(WIDTH):
                 print(Back.RESET + self.__grid[i][j], end = '')
-                # print(grid[i][j], end = '')
             print()
         self.__grid[HEIGHT-2:HEIGHT,0:WIDTH] = Back.MAGENTA + ' '
     # def change_grid(self,ch,x,y):

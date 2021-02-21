@@ -24,7 +24,28 @@ class Brick:
         return self._rownum
     def getColnum(self):
         return self._colnum
+    def getStrength (self):
+        return self._strength
+    def changeColor(self):
+        # print("change color")
+        if self._strength == 3:
+            self._brick = np.tile(Back.YELLOW + ' ',BRICK_LENGTH)
+            self._strength -= 1
+        elif self._strength == 2:
+            self._brick = np.tile(Back.WHITE + ' ',BRICK_LENGTH)
+            self._strength -= 1
+        elif self._strength == 1:
+            # print("strength is 1")
+            self._brick = np.tile(Back.RESET + ' ',BRICK_LENGTH)
+            self._strength -= 1
     
+    def reset(self):
+        self._brick = np.tile(Back.RESET + ' ',BRICK_LENGTH)
+        self._strength = 0
+
+    # def genPowerup(self):
+    #     addPowerup(self._rownum,self._colnum)
+    #         # pass    
     # def changeColor(self):
 
     
@@ -58,6 +79,13 @@ class pow1(Brick):
         self._colnum = c
         self._brick = np.tile(Back.WHITE + ' ',BRICK_LENGTH)
 
+class special(Brick):
+    def __init__(self, strength,r,c):
+        super().__init__(strength)
+        self._rownum = r
+        self._colnum = c
+        self._brick = np.tile(Back.GREEN + ' ',BRICK_LENGTH)
+
 brickStructure = []  
 
 def generateBrick(grid):
@@ -73,6 +101,21 @@ def generateBrick(grid):
             else:
                 obj_Brick = unbreakable(strength , START_R+i,j)
             brickStructure.append(obj_Brick)
-            obj_Brick.placeBrick(grid)
+    
+    ''' special type of bricks for bonus'''
+    for j in range(START_C, START_C + BRICK_LENGTH*6, BRICK_LENGTH):
+        obj_Brick = special(-1,START_R + 15,j)
+        brickStructure.append(obj_Brick)
+
+def explosion():
+    for brick in brickStructure:
+        if brick.getRownum()==START_R+14 and brick.getColnum()<START_C + BRICK_LENGTH*7:
+            brick.reset()
+        if brick.getRownum()==START_R+15 and brick.getColnum()<=START_C + BRICK_LENGTH*6:
+            brick.reset()
+
+def printBricks(grid):
+    for brick in brickStructure:
+        brick.placeBrick(grid)
 
 
