@@ -24,6 +24,4 @@ class Screen:
 
 
 
-        # grid[0][0]
-# obj_Screen = Screen()
-# obj_Screen.create_bg()
+

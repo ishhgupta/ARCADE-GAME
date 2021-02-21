@@ -26,6 +26,11 @@ class Brick:
         return self._colnum
     def getStrength (self):
         return self._strength
+        
+    def destroy(self):
+        self._brick = np.tile(Back.RESET + ' ',BRICK_LENGTH)
+        self._strength = 0
+
     def changeColor(self):
         # print("change color")
         if self._strength == 3:
@@ -42,12 +47,6 @@ class Brick:
     def reset(self):
         self._brick = np.tile(Back.RESET + ' ',BRICK_LENGTH)
         self._strength = 0
-
-    # def genPowerup(self):
-    #     addPowerup(self._rownum,self._colnum)
-    #         # pass    
-    # def changeColor(self):
-
     
 
 class unbreakable(Brick):

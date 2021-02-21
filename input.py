@@ -5,6 +5,7 @@ import sys
 import termios
 import tty
 import signal
+import time
 
 
 class Get:
@@ -40,13 +41,15 @@ def alarmHandler(signum, frame):
     raise AlarmException
 
 
-def input_to(getch, timeout=0.1):
+def input_to(getch, timeout=0.07):
     """Taking input from user."""
     signal.signal(signal.SIGALRM, alarmHandler)
     signal.setitimer(signal.ITIMER_REAL, timeout)
     try:
         text = getch()
         signal.alarm(0)
+        if text != None:
+            time.sleep(timeout)
         return text
     except AlarmException:
         signal.signal(signal.SIGALRM, signal.SIG_IGN)

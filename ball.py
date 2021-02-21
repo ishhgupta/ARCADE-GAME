@@ -11,22 +11,37 @@ class Ball:
         self.__ball = Fore.YELLOW + Back.RESET + 'O'
         self.__xspeed = 1
         self.__yspeed = -1
-        self.__lives = 3
+        self.__lives = 2
         self.__stuck = True
         self.__initial = random.randint(0,PADDLE_LENGTH-1)          ## gives random value for determining inital pos on paddle
-    
+        self.__score = 0
+        self.__thru = False
+   
     def stickBall(self,grid,obj_Paddle):
         
         grid[self.__rownum,self.__colnum] = ' '
         # self.__colnum = random.randint(obj_Paddle.getColnum(),obj_Paddle.getColnum() + PADDLE_LENGTH - 1)
         self.__colnum = obj_Paddle.getColnum() +self.__initial
         grid[self.__rownum,self.__colnum] = self.__ball
+    
+    def getXspeed(self):
+        return self.__xspeed
+    def getYspeed(self):
+        return self.__yspeed
+    def setSpeed(self,x,y):
+        self.__xspeed = x
+        self.__yspeed = y
 
+    def setThru(self,val):
+        self.__thru = val
+    def getScore(self):
+        return self.__score
     def ifStuck(self):
         return self.__stuck
     def release(self,val):
         self.__stuck = val
-
+    def getLives(self):
+        return (str)(self.__lives)
     def checkCollision(self,ball_y,ball_x,brick):
         flag = False
         bsy = brick.getRownum()
@@ -58,12 +73,21 @@ class Ball:
             if self.checkCollision(temp_row,temp_col,brick):
                 if brick.getStrength()==-1:
                     explosion()
-                brick.changeColor()
-                # if brick.getStrength() == 0 or brick.getStrength()==1:
-                if brick.getStrength() == 0 :
-                    addPowerups(self.__rownum,self.__colnum)
-                    # brickStructure.remove(brick)
-                # print(activePowerups)   
+                    self.__score += 13
+                    if brick.getStrength() == 0:
+                        addPowerups(self.__rownum,self.__colnum)
+                else:
+                    if self.__thru == True:
+                        self.__yspeed = -1*(self.__yspeed)
+                        brick.destroy()
+                        self.__score += 1
+                    else:
+                        if brick.getStrength() == 1:
+                            self.__score += 1
+                        brick.changeColor()
+                        if brick.getStrength() == 0:
+                            addPowerups(self.__rownum,self.__colnum)
+            
                 self.__yspeed = -1*(self.__yspeed)
                 break
         
@@ -75,9 +99,17 @@ class Ball:
         ''' handling collision with wall'''
         if temp_col < 0 or temp_col > WIDTH -1:
             self.__xspeed = -1*(self.__xspeed)
-        if temp_row < 0 or temp_row > HEIGHT - 3:        # subject to change
+        # if temp_row < 0 or temp_row > HEIGHT - 3:        # subject to change
+        if temp_row < 0 :
             self.__yspeed = -1*(self.__yspeed)
-    
+        if temp_row > HEIGHT - 3:
+            self.__yspeed = -1*(self.__yspeed)
+            self.__rownum += self.__yspeed
+            self.__xspeed = 1
+            self.__yspeed = -1
+            self.__lives = self.__lives - 1
+            self.__stuck = True
+            return 0
 
         ''' handle collision with paddle'''
         stInd = obj_Paddle.getColnum()
