@@ -49,18 +49,18 @@ while True:
     letter = input_to(inpChar)
 
     if letter == "n" or headerfile.NUM_BRICKS == '0':
-        
+        levelNum += 1
         headerfile.brickStructure = []
         headerfile.NUM_BRICKS = 0
         headerfile.NUM_BRICKS = generateBrick(grid)
         obj_Paddle.placePaddle(grid)
         # obj_Ball.stickBall(grid,obj_Paddle)
-    # if levelNum == '4':
-    #     inpChar.show_cursor()
-    #     os.system('stty echo')
-    #     print("You Lost!!")
-    #     os.system('clear')
-    #     break
+    if levelNum == 4:
+        inpChar.show_cursor()
+        os.system('stty echo')
+        os.system('clear')
+        print("Game Over!!")
+        break
 
     if letter == "q":
         inpChar.show_cursor()
@@ -81,17 +81,18 @@ while True:
     # print("\033[%d;%dH" % (0, 0))
     print("\033[0;0H")
     print()
-    print(Fore.WHITE + Back.MAGENTA + "SCORE: " + (str)(obj_Ball.getScore()), end = "\t\t\t\t")
-    print(Fore.WHITE + Back.MAGENTA + "TIME: " + (str)(round(time.time()) - round(starttime)),end = "\t\t\t\t")
-    print(Fore.WHITE + Back.MAGENTA + "LIVES: " +(str)(obj_Ball.getLives()))
+    print(Fore.WHITE + Back.MAGENTA + "SCORE: " + (str)(obj_Ball.getScore()), end = "\t\t\t")
+    print(Fore.WHITE + Back.MAGENTA + "TIME: " + (str)(round(time.time()) - round(starttime)),end = "\t\t\t")
+    print(Fore.WHITE + Back.MAGENTA + "LIVES: " +(str)(obj_Ball.getLives()), end = "\t\t\t" )
+    print(Fore.WHITE + Back.MAGENTA + "LEVEL: " +(str)(levelNum) )
     print()
     live = obj_Ball.getLives()
     if live == '0':
         # print("yeahyeah")
         inpChar.show_cursor()
         os.system('stty echo')
-        print("You Lost!!")
         os.system('clear')
+        print("You Lost!!")
         break
     obj_Screen.create_bg(grid)
     print("NUM_BRICKS", headerfile.NUM_BRICKS)
