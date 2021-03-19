@@ -1,5 +1,6 @@
-import random
 from headerfile import *
+import headerfile
+import random
 from paddle import *
 from bricks import *
 from powerup import *
@@ -11,7 +12,7 @@ class Ball:
         self.__ball = Fore.YELLOW + Back.RESET + 'O'
         self.__xspeed = 1
         self.__yspeed = -1
-        self.__lives = 2
+        self.__lives = 4
         self.__stuck = True
         self.__initial = random.randint(0,PADDLE_LENGTH-1)          ## gives random value for determining inital pos on paddle
         self.__score = 0
@@ -66,7 +67,8 @@ class Ball:
 
 
     def ballBrickCollision(self,temp_row,temp_col):
-        for brick in brickStructure:
+        global NUM_BRICKS
+        for brick in headerfile.brickStructure:
             if brick.getStrength() == 0:
                 continue
             
@@ -80,6 +82,7 @@ class Ball:
                     if self.__thru == True:
                         self.__yspeed = -1*(self.__yspeed)
                         brick.destroy()
+                        headerfile.NUM_BRICKS -= 1
                         self.__score += 1
                     else:
                         if brick.getStrength() == 1:

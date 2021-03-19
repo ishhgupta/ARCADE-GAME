@@ -4,6 +4,8 @@ import signal
 import random
 
 from headerfile import *
+import headerfile
+# from headerfile import NUM_BRICKS
 from screen import Screen
 from bricks import *
 from paddle import *
@@ -11,12 +13,15 @@ from ball import *
 from input import *
 from powerup import *
 
+# global NUM_BRICKS
 
 obj_Screen = Screen()
 grid = obj_Screen.give_grid()
 
-generateBrick(grid)
+# global NUM_BRICKS
+headerfile.NUM_BRICKS = generateBrick(grid)
 
+levelNum = 1
 obj_Paddle = Paddle()
 obj_Paddle.placePaddle(grid)
 
@@ -43,6 +48,20 @@ while True:
     printBricks(grid)
     letter = input_to(inpChar)
 
+    if letter == "n" or headerfile.NUM_BRICKS == '0':
+        
+        headerfile.brickStructure = []
+        headerfile.NUM_BRICKS = 0
+        headerfile.NUM_BRICKS = generateBrick(grid)
+        obj_Paddle.placePaddle(grid)
+        # obj_Ball.stickBall(grid,obj_Paddle)
+    # if levelNum == '4':
+    #     inpChar.show_cursor()
+    #     os.system('stty echo')
+    #     print("You Lost!!")
+    #     os.system('clear')
+    #     break
+
     if letter == "q":
         inpChar.show_cursor()
         os.system('stty echo')
@@ -68,13 +87,14 @@ while True:
     print()
     live = obj_Ball.getLives()
     if live == '0':
-        print("yeahyeah")
+        # print("yeahyeah")
         inpChar.show_cursor()
         os.system('stty echo')
         print("You Lost!!")
         os.system('clear')
         break
     obj_Screen.create_bg(grid)
+    print("NUM_BRICKS", headerfile.NUM_BRICKS)
     # time.sleep(0.03)
 inpChar.show_cursor()
 

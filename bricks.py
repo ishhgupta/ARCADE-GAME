@@ -2,6 +2,8 @@
 from headerfile import *
 from screen import Screen
 from headerfile import END_C, START_C, START_R, BRICK_LENGTH
+# from main import NUM_BRICKS
+import headerfile
 
 from colorama import init,Fore,Back,Style
 init(autoreset=True)
@@ -43,6 +45,7 @@ class Brick:
             # print("strength is 1")
             self._brick = np.tile(Back.RESET + ' ',BRICK_LENGTH)
             self._strength -= 1
+            headerfile.NUM_BRICKS -= 1
     
     def reset(self):
         self._brick = np.tile(Back.RESET + ' ',BRICK_LENGTH)
@@ -85,9 +88,11 @@ class special(Brick):
         self._colnum = c
         self._brick = np.tile(Back.GREEN + ' ',BRICK_LENGTH)
 
-brickStructure = []  
+# brickStructure = []  
 
-def generateBrick(grid):
+def generateBrick(grid):    
+    # brickStructure = []  
+    bricks = 0
     for i in range (15):
         for j in range(START_C, END_C, BRICK_LENGTH):
             strength = random.randint(1,4)
@@ -99,22 +104,29 @@ def generateBrick(grid):
                 obj_Brick = pow1(strength , START_R+i,j)
             else:
                 obj_Brick = unbreakable(strength , START_R+i,j)
-            brickStructure.append(obj_Brick)
+            headerfile.brickStructure.append(obj_Brick)
+            bricks= bricks + 1
     
     ''' special type of bricks for bonus'''
     for j in range(START_C, START_C + BRICK_LENGTH*6, BRICK_LENGTH):
         obj_Brick = special(-1,START_R + 15,j)
-        brickStructure.append(obj_Brick)
+        headerfile.brickStructure.append(obj_Brick)
+        bricks +=  1
+    return bricks
 
 def explosion():
-    for brick in brickStructure:
+    global NUM_BRICKS
+    for brick in headerfile.brickStructure:
         if brick.getRownum()==START_R+14 and brick.getColnum()<START_C + BRICK_LENGTH*7:
             brick.reset()
+            headerfile.NUM_BRICKS -= 1
+            print("in explosion", NUM_BRICKS)
         if brick.getRownum()==START_R+15 and brick.getColnum()<=START_C + BRICK_LENGTH*6:
             brick.reset()
+            headerfile.NUM_BRICKS -= 1
 
 def printBricks(grid):
-    for brick in brickStructure:
+    for brick in headerfile.brickStructure:
         brick.placeBrick(grid)
 
 
