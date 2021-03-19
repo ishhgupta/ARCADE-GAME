@@ -53,8 +53,10 @@ while True:
         headerfile.brickStructure = []
         headerfile.NUM_BRICKS = 0
         headerfile.NUM_BRICKS = generateBrick(grid)
+        obj_Paddle.initialPos(0,grid)
         obj_Paddle.placePaddle(grid)
-        # obj_Ball.stickBall(grid,obj_Paddle)
+        obj_Ball.stickBall(grid,obj_Paddle)
+        
     if levelNum == 4:
         inpChar.show_cursor()
         os.system('stty echo')

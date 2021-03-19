@@ -22,7 +22,9 @@ class Ball:
         
         grid[self.__rownum,self.__colnum] = ' '
         # self.__colnum = random.randint(obj_Paddle.getColnum(),obj_Paddle.getColnum() + PADDLE_LENGTH - 1)
+        self.__rownum = PADDLE_ROW - 1
         self.__colnum = obj_Paddle.getColnum() +self.__initial
+        self.__stuck = True
         grid[self.__rownum,self.__colnum] = self.__ball
     
     def getXspeed(self):

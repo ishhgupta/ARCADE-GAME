@@ -37,6 +37,11 @@ class Paddle:
     
     def getColnum(self):
         return self.__colnum
+        
+    def initialPos(self,colnum,grid):
+        grid[PADDLE_ROW,self.__colnum:self.__colnum + self.__length] = ' '
+        self.__colnum = colnum
+
 
     def changeLength(self,newLen):
         self.__length = newLen
