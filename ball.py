@@ -5,6 +5,8 @@ from paddle import *
 from bricks import *
 from powerup import *
 
+import os
+
 class Ball:
     def __init__(self):
         self.__rownum = PADDLE_ROW - 1
@@ -12,7 +14,7 @@ class Ball:
         self.__ball = Fore.YELLOW + Back.RESET + 'O'
         self.__xspeed = 1
         self.__yspeed = -1
-        self.__lives = 4
+        self.__lives = 1
         self.__stuck = True
         self.__initial = random.randint(0,PADDLE_LENGTH-1)          ## gives random value for determining inital pos on paddle
         self.__score = 0
@@ -75,7 +77,9 @@ class Ball:
                 continue
             
             if self.checkCollision(temp_row,temp_col,brick):
+                os.system("aplay sounds/hitBrick.wav -q &")
                 if brick.getStrength()==-1:
+                    os.system("aplay sounds/killBrick.wav -q &")
                     explosion()
                     self.__score += 13
                     if brick.getStrength() == 0:
@@ -88,6 +92,7 @@ class Ball:
                         self.__score += 1
                     else:
                         if brick.getStrength() == 1:
+                            os.system("aplay sounds/killBrick.wav -q &")
                             self.__score += 1
                         brick.changeColor()
                         if brick.getStrength() == 0:
@@ -103,11 +108,14 @@ class Ball:
         
         ''' handling collision with wall'''
         if temp_col < 0 or temp_col > WIDTH -1:
+            os.system("aplay sounds/hitWall.wav -q &")
             self.__xspeed = -1*(self.__xspeed)
         # if temp_row < 0 or temp_row > HEIGHT - 3:        # subject to change
         if temp_row < 0 :
+            os.system("aplay sounds/hitWall.wav -q &")
             self.__yspeed = -1*(self.__yspeed)
         if temp_row > HEIGHT - 3:
+            os.system("aplay sounds/hitWall.wav -q &")
             self.__yspeed = -1*(self.__yspeed)
             self.__rownum += self.__yspeed
             self.__xspeed = 1
@@ -121,6 +129,7 @@ class Ball:
         endInd = stInd + PADDLE_LENGTH -1
         midInd = (int)((stInd + endInd)/2)
         if temp_row == PADDLE_ROW and temp_col >= stInd and temp_col <= endInd:
+            os.system("aplay sounds/hitPaddle.wav -q &")
             self.__xspeed += (temp_col-midInd)
             self.__yspeed = -1*(self.__yspeed)
 

@@ -13,15 +13,15 @@ from ball import *
 from input import *
 from powerup import *
 
-# global NUM_BRICKS
-
+os.system("aplay -q sounds/DXBALL.wav &")
 obj_Screen = Screen()
 grid = obj_Screen.give_grid()
 
-# global NUM_BRICKS
 headerfile.NUM_BRICKS = generateBrick(grid)
 
 levelNum = 1
+fallingLimit = 5
+
 obj_Paddle = Paddle()
 obj_Paddle.placePaddle(grid)
 
@@ -30,6 +30,7 @@ obj_Ball.stickBall(grid,obj_Paddle)
 
 os.system('clear')
 starttime = time.time()
+levelTime = time.time()
 
 print()
 for i in range(3):
@@ -50,6 +51,8 @@ while True:
 
     if letter == "n" or headerfile.NUM_BRICKS == '0':
         levelNum += 1
+        levelTime = time.time()
+
         headerfile.brickStructure = []
         headerfile.NUM_BRICKS = 0
         headerfile.NUM_BRICKS = generateBrick(grid)
@@ -58,16 +61,20 @@ while True:
         obj_Ball.stickBall(grid,obj_Paddle)
         
     if levelNum == 4:
+        os.system("killall aplay -q")
         inpChar.show_cursor()
         os.system('stty echo')
         os.system('clear')
         print("Game Over!!")
+        os.system("aplay sounds/gameover.wav -q &")
         break
 
     if letter == "q":
+        os.system("killall aplay -q")
         inpChar.show_cursor()
         os.system('stty echo')
         print("Quit!!")
+        os.system("aplay sounds/gameover.wav -q &")
         break
     elif letter == "a" or letter == "A":
         obj_Paddle.movePaddleLeft(grid)
@@ -84,17 +91,20 @@ while True:
     print("\033[0;0H")
     print()
     print(Fore.WHITE + Back.MAGENTA + "SCORE: " + (str)(obj_Ball.getScore()), end = "\t\t\t")
+    print(Fore.WHITE + Back.MAGENTA + "LevelTime: " + (str)(round(time.time()) - round(levelTime)), end = "\t\t\t")
     print(Fore.WHITE + Back.MAGENTA + "TIME: " + (str)(round(time.time()) - round(starttime)),end = "\t\t\t")
     print(Fore.WHITE + Back.MAGENTA + "LIVES: " +(str)(obj_Ball.getLives()), end = "\t\t\t" )
-    print(Fore.WHITE + Back.MAGENTA + "LEVEL: " +(str)(levelNum) )
+    print(Fore.WHITE + Back.MAGENTA + "LEVEL: " +(str)(levelNum))
     print()
     live = obj_Ball.getLives()
     if live == '0':
         # print("yeahyeah")
+        os.system("killall aplay -q")
         inpChar.show_cursor()
         os.system('stty echo')
         os.system('clear')
-        print("You Lost!!")
+        print("Lives Over!!")
+        os.system("aplay sounds/gameover.wav -q &")
         break
     obj_Screen.create_bg(grid)
     print("NUM_BRICKS", headerfile.NUM_BRICKS)

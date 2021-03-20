@@ -109,6 +109,7 @@ activePowerups = []
 caughtPowerups = []
 
 def addPowerups(y,x):
+    os.system("aplay sounds/powerup.wav -q &")
     type = random.randint(1,6)
     if type == 1:
         obj_powerup = expandPaddle(type,x,y)
