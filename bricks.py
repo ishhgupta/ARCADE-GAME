@@ -18,8 +18,23 @@ class Brick:
         self._rownum = 0
         self._colnum = 0
         self._brick = ' '
+        self._ifRainbow = False
     
     def placeBrick(self,grid):
+        
+        ''' handling rainbow brick'''
+        if self._ifRainbow == True:
+            temp = random.randint(1,4)
+            if temp == 3:
+                self._brick = np.tile(Back.BLUE + ' ',BRICK_LENGTH)
+            elif temp == 2:
+                self._brick = np.tile(Back.YELLOW + ' ',BRICK_LENGTH)   
+            elif temp == 1:
+                self._brick = np.tile(Back.WHITE + ' ',BRICK_LENGTH)
+            else:
+                self._brick = np.tile(Back.RED + ' ',BRICK_LENGTH)
+            self._strength = temp
+
         grid[self._rownum, self._colnum : self._colnum + BRICK_LENGTH] = self._brick
     
     def getRownum(self):
@@ -28,12 +43,17 @@ class Brick:
         return self._colnum
     def getStrength (self):
         return self._strength
-        
+    
+    def setIfRainbow(self,flag):
+        self._ifRainbow = flag
+
     def destroy(self):
         self._brick = np.tile(Back.RESET + ' ',BRICK_LENGTH)
         self._strength = 0
 
     def changeColor(self):
+        if self._ifRainbow == True:
+            self._ifRainbow = False
         # print("change color")
         if self._strength == 3:
             self._brick = np.tile(Back.YELLOW + ' ',BRICK_LENGTH)
@@ -104,6 +124,12 @@ def generateBrick(grid):
                 obj_Brick = pow1(strength , START_R+i,j)
             else:
                 obj_Brick = unbreakable(strength , START_R+i,j)
+
+            ''' for rainbow brick'''
+            if i == 14 and j == START_C + BRICK_LENGTH*7:
+                # obj_Brick = pow3(strength , START_R+i,j)
+                obj_Brick._ifRainbow = True
+
             headerfile.brickStructure.append(obj_Brick)
             bricks= bricks + 1
     
