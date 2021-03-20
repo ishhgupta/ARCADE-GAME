@@ -44,6 +44,11 @@ class Brick:
 
         grid[self._rownum, self._colnum : self._colnum + BRICK_LENGTH] = self._brick
     
+    def checkBrick(self):
+        # to check if brick is in the same row as paddle after continuosly falling
+        if self._rownum >= PADDLE_ROW -1:
+            return 0
+
     def getRownum(self):
         return self._rownum
     def getColnum(self):
@@ -170,6 +175,8 @@ def fallBricks(grid):
         num += 1
         brick.fallBrick()
 
-# def 
-
-# 
+def checkBricksPaddle(grid):
+    for brick in headerfile.brickStructure:
+        if brick.checkBrick() == 0:
+            return 0
+    return 1

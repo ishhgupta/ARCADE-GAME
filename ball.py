@@ -14,7 +14,7 @@ class Ball:
         self.__ball = Fore.YELLOW + Back.RESET + 'O'
         self.__xspeed = 1
         self.__yspeed = -1
-        self.__lives = 2
+        self.__lives = 10
         self.__stuck = True
         self.__initial = random.randint(0,PADDLE_LENGTH-1)          ## gives random value for determining inital pos on paddle
         self.__score = 0
@@ -136,7 +136,7 @@ class Ball:
             os.system("aplay sounds/hitPaddle.wav -q &")
             self.__xspeed += (temp_col-midInd)
             self.__yspeed = -1*(self.__yspeed)
-            
+
             if self.__ifFallBrick == True:
                 fallBricks(grid)
                 # pass

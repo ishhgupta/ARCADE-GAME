@@ -95,7 +95,17 @@ while True:
     placePowerups(grid,obj_Paddle,obj_Ball)
     # print("\033[%d;%dH" % (0, 0))
 
-    # checkBricksPaddle(grid)
+    ''' for checking if brickstructure is colliding with paddle'''
+    status = checkBricksPaddle(grid)
+    if status == 0:
+        os.system("killall aplay -q")
+        inpChar.show_cursor()
+        os.system('stty echo')
+        os.system('clear')
+        print("Game Over!!")
+        # print("stickkkkk")
+        os.system("aplay sounds/gameover.wav -q &")
+        break
 
     print("\033[0;0H")
     print()
