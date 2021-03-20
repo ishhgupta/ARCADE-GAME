@@ -13,14 +13,14 @@ from ball import *
 from input import *
 from powerup import *
 
-os.system("aplay -q sounds/DXBALL.wav &")
+# os.system("aplay -q sounds/DXBALL.wav &")
 obj_Screen = Screen()
 grid = obj_Screen.give_grid()
 
 headerfile.NUM_BRICKS = generateBrick(grid)
 
 levelNum = 1
-fallingLimit = 5
+fallingLimit = 10
 
 obj_Paddle = Paddle()
 obj_Paddle.placePaddle(grid)
@@ -31,6 +31,7 @@ obj_Ball.stickBall(grid,obj_Paddle)
 os.system('clear')
 starttime = time.time()
 levelTime = time.time()
+# prevTime = levelTime
 
 print()
 for i in range(3):
@@ -46,8 +47,12 @@ os.system('stty -echo')
 while True:
     # print('\033c')
     # letter = input_to(Get())
-    printBricks(grid)
+    
     letter = input_to(inpChar)
+    printBricks(grid)
+    limitTime = round(time.time()) - round(levelTime)
+    if limitTime > fallingLimit:
+        obj_Ball.setFallBrick(True)
 
     if letter == "n" or headerfile.NUM_BRICKS == '0':
         levelNum += 1
@@ -56,6 +61,7 @@ while True:
         headerfile.brickStructure = []
         headerfile.NUM_BRICKS = 0
         headerfile.NUM_BRICKS = generateBrick(grid)
+        obj_Ball.setFallBrick(False)
         obj_Paddle.initialPos(0,grid)
         obj_Paddle.placePaddle(grid)
         obj_Ball.stickBall(grid,obj_Paddle)
@@ -88,6 +94,9 @@ while True:
         obj_Ball.stickBall(grid,obj_Paddle)
     placePowerups(grid,obj_Paddle,obj_Ball)
     # print("\033[%d;%dH" % (0, 0))
+
+    # checkBricksPaddle(grid)
+
     print("\033[0;0H")
     print()
     print(Fore.WHITE + Back.MAGENTA + "SCORE: " + (str)(obj_Ball.getScore()), end = "\t\t\t")
@@ -97,6 +106,7 @@ while True:
     print(Fore.WHITE + Back.MAGENTA + "LEVEL: " +(str)(levelNum))
     print()
     live = obj_Ball.getLives()
+
     if live == '0':
         # print("yeahyeah")
         os.system("killall aplay -q")
@@ -106,8 +116,9 @@ while True:
         print("Lives Over!!")
         os.system("aplay sounds/gameover.wav -q &")
         break
+    
     obj_Screen.create_bg(grid)
-    print("NUM_BRICKS", headerfile.NUM_BRICKS)
+    # print("NUM_BRICKS", headerfile.NUM_BRICKS)
     # time.sleep(0.03)
 inpChar.show_cursor()
 

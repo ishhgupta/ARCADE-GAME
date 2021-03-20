@@ -20,6 +20,13 @@ class Brick:
         self._brick = ' '
         self._ifRainbow = False
     
+    def fallBrick(self):
+        # grid[self._rownum, self._colnum : self._colnum + BRICK_LENGTH] = np.tile(Back.RESET + ' ',BRICK_LENGTH)
+        self._rownum += 1
+
+    def erase(self,grid):
+        grid[self._rownum, self._colnum : self._colnum + BRICK_LENGTH] = np.tile(Back.RESET + ' ',BRICK_LENGTH)
+    
     def placeBrick(self,grid):
         
         ''' handling rainbow brick'''
@@ -155,4 +162,14 @@ def printBricks(grid):
     for brick in headerfile.brickStructure:
         brick.placeBrick(grid)
 
+def fallBricks(grid):
+    num = 1
+    for brick in headerfile.brickStructure:
+        if num < 13:
+            brick.erase(grid)
+        num += 1
+        brick.fallBrick()
 
+# def 
+
+# 
