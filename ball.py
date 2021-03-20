@@ -87,7 +87,7 @@ class Ball:
                     explosion()
                     self.__score += 13
                     if brick.getStrength() == 0:
-                        addPowerups(self.__rownum,self.__colnum)
+                        addPowerups(self.__rownum,self.__colnum,self.__xspeed,self.__yspeed)
                 else:
                     if self.__thru == True:
                         self.__yspeed = -1*(self.__yspeed)
@@ -100,7 +100,7 @@ class Ball:
                             self.__score += 1
                         brick.changeColor()
                         if brick.getStrength() == 0:
-                            addPowerups(self.__rownum,self.__colnum)
+                            addPowerups(self.__rownum,self.__colnum,self.__xspeed, self.__yspeed)
             
                 self.__yspeed = -1*(self.__yspeed)
                 break

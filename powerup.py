@@ -12,10 +12,12 @@ from ball import *
 
 class Powerup():
     types = ['@','#','$','%','*','&']
-    def __init__(self,type,x,y) :
+    def __init__(self,type,x,y, xspeed, yspeed) :
         self._type = type
         self._colnum = x
         self._rownum = y
+        self._xspeed = xspeed
+        self._yspeed = yspeed
         self._caught = False
         self._time = None
 
@@ -26,19 +28,20 @@ class Powerup():
     
     def place(self,grid,obj_Paddle,struct):
         grid[self._rownum,self._colnum] = ' '
-        temp_row = self._rownum +1
+        temp_row = self._rownum +self._yspeed
         # grid[self._rownum,self._colnum] = Back.GREEN + self.types[self._type]
         if temp_row > HEIGHT -3:
             print("hit wall")
             return 0
         stInd = obj_Paddle.getColnum()
         endInd = stInd + PADDLE_LENGTH -1
-        if temp_row == PADDLE_ROW and self._colnum >= stInd and self._colnum <= endInd:
+        if temp_row >= PADDLE_ROW and self._colnum >= stInd and self._colnum <= endInd:
             print("hit paddle")
             self._caught = True
             self.time = time.time()
             return 2
-        self._rownum = temp_row
+        self._rownum = temp_row + 2                 # gravity effect
+        self._colnum = self._colnum + self._xspeed
         grid[self._rownum,self._colnum] = struct
         return 1
     def activate(self):
@@ -47,8 +50,8 @@ class Powerup():
         print("in parent class")
 
 class expandPaddle(Powerup):
-    def __init__(self,type,x,y) :
-        super().__init__(type, x, y)
+    def __init__(self,type,x,y,xspeed, yspeed) :
+        super().__init__(type, x, y, xspeed, yspeed)
         self._struct = Fore.GREEN + '@'
     def activate(self,obj_Paddle):
         obj_Paddle.changeLength(2*PADDLE_LENGTH)
@@ -57,8 +60,8 @@ class expandPaddle(Powerup):
         obj_Paddle.changeLength(PADDLE_LENGTH)
 
 class shrinkPaddle(Powerup):
-    def __init__(self,type,x,y) :
-        super().__init__(type, x, y)
+    def __init__(self,type,x,y,xspeed, yspeed) :
+        super().__init__(type, x, y,xspeed, yspeed)
         self._struct = Fore.GREEN + '#'
     def activate(self,obj_Paddle):
         obj_Paddle.changeLength(PADDLE_LENGTH-2)
@@ -66,8 +69,8 @@ class shrinkPaddle(Powerup):
         obj_Paddle.changeLength(PADDLE_LENGTH)
 
 class paddleGrab(Powerup):
-    def __init__(self, type, x, y):
-        super().__init__(type, x, y)
+    def __init__(self, type, x, y,xspeed, yspeed):
+        super().__init__(type, x, y,xspeed, yspeed)
         self._struct = Fore.GREEN + '$'
     def activate(self):
         print("in grab paddle  class")
@@ -75,8 +78,8 @@ class paddleGrab(Powerup):
         print("in grab paddle  class")
 
 class fastBall(Powerup):
-    def __init__(self,type,x,y) :
-        super().__init__(type, x, y)
+    def __init__(self,type,x,y,xspeed, yspeed) :
+        super().__init__(type, x, y,xspeed, yspeed)
         self._struct = Fore.GREEN + '%'
     def activate(self,obj_Ball):
         obj_Ball.setSpeed(2*obj_Ball.getXspeed(),2*obj_Ball.getYspeed())
@@ -86,8 +89,8 @@ class fastBall(Powerup):
         print("in fast paddle  class")
 
 class multipleBall(Powerup):
-    def __init__(self,type,x,y) :
-        super().__init__(type, x, y)
+    def __init__(self,type,x,y,xspeed, yspeed) :
+        super().__init__(type, x, y,xspeed, yspeed)
         self._struct = Fore.GREEN + '*'
     def activate(self):
         print("in multiple  paddle  class")
@@ -95,8 +98,8 @@ class multipleBall(Powerup):
         print("in multiple paddle  class")
 
 class thruBall(Powerup):
-    def __init__(self,type,x,y) :
-        super().__init__(type, x, y)
+    def __init__(self,type,x,y,xspeed, yspeed) :
+        super().__init__(type, x, y,xspeed, yspeed)
         self._struct = Fore.GREEN + '&'
     def activate(self,obj_Ball):
         obj_Ball.setThru(True)
@@ -108,21 +111,21 @@ class thruBall(Powerup):
 activePowerups = []
 caughtPowerups = []
 
-def addPowerups(y,x):
+def addPowerups(y,x,xspeed, yspeed):
     # os.system("aplay sounds/powerup.wav -q &")
-    type = random.randint(1,6)
+    type = random.randint(1,2)
     if type == 1:
-        obj_powerup = expandPaddle(type,x,y)
+        obj_powerup = expandPaddle(type,x,y, xspeed, yspeed)
     elif type == 2:
-        obj_powerup = shrinkPaddle(type,x,y)
+        obj_powerup = shrinkPaddle(type,x,y,xspeed, yspeed)
     elif type == 3:
-        obj_powerup = paddleGrab(type,x,y)
+        obj_powerup = paddleGrab(type,x,y,xspeed, yspeed)
     elif type == 4:
-        obj_powerup = fastBall(type,x,y)
+        obj_powerup = fastBall(type,x,y,xspeed, yspeed)
     elif type == 5:
-        obj_powerup = multipleBall(type,x,y)
+        obj_powerup = multipleBall(type,x,y,xspeed, yspeed)
     else:
-        obj_powerup = thruBall(type,x,y)
+        obj_powerup = thruBall(type,x,y,xspeed, yspeed)
     activePowerups.append(obj_powerup)
 
 def placePowerups(grid,obj_Paddle,obj_Ball):
@@ -131,6 +134,7 @@ def placePowerups(grid,obj_Paddle,obj_Ball):
         if val == 0:
             activePowerups.remove(powerup)
         if val == 2:
+
             if powerup._type == 1 or powerup._type == 2:
                 powerup.activate(obj_Paddle)
             elif powerup._type == 6 or powerup._type == 4:
