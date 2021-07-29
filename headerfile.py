@@ -5,8 +5,6 @@ init(autoreset=True)
 # dimensions
 HEIGHT = 40
 WIDTH = 140
-# WIDTH = 142
-# HEIGHT = 35
 BRICK_LENGTH = 6 
 PADDLE_LENGTH = 7
 PADDLE_ROW = HEIGHT - 3
