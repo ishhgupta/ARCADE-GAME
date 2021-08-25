@@ -20,6 +20,7 @@ class Powerup():
         self._yspeed = yspeed
         self._caught = False
         self._time = None
+        self._proj = 0
 
     def checkRemTime(self):
         if time.time() - self.time > 6.0:
@@ -29,6 +30,7 @@ class Powerup():
     def place(self,grid,obj_Paddle,struct):
         grid[self._rownum,self._colnum] = ' '
         temp_row = self._rownum +self._yspeed
+        temp_row += self._proj                        # gravity effect
         # grid[self._rownum,self._colnum] = Back.GREEN + self.types[self._type]
         if temp_row > HEIGHT -3:
             print("hit wall")
@@ -40,9 +42,20 @@ class Powerup():
             self._caught = True
             self.time = time.time()
             return 2
-        self._rownum = temp_row + 2                 # gravity effect
-        self._colnum = self._colnum + self._xspeed
+
+        ''' powerup collision with wall'''
+        temp_col = self._colnum + self._xspeed
+        if temp_col < 0 or temp_col > WIDTH -1:
+            # os.system("aplay sounds/hitWall.wav -q &")
+            self._xspeed = -1*(self._xspeed)
+        if temp_row < 0 :
+            # os.system("aplay sounds/hitWall.wav -q &")
+            self._yspeed = -1*(self._yspeed)
+        
+        self._rownum = temp_row     
+        self._colnum = temp_col
         grid[self._rownum,self._colnum] = struct
+        self._proj = 2
         return 1
     def activate(self):
         print("in parent class")
@@ -112,6 +125,8 @@ activePowerups = []
 caughtPowerups = []
 
 def addPowerups(y,x,xspeed, yspeed):
+    if yspeed > 0 :
+        yspeed -= 2
     # os.system("aplay sounds/powerup.wav -q &")
     type = random.randint(1,2)
     if type == 1:
@@ -131,6 +146,7 @@ def addPowerups(y,x,xspeed, yspeed):
 def placePowerups(grid,obj_Paddle,obj_Ball):
     for powerup in activePowerups:
         val = powerup.place(grid,obj_Paddle,powerup._struct)
+        
         if val == 0:
             activePowerups.remove(powerup)
         if val == 2:
