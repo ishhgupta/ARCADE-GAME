@@ -44,6 +44,9 @@ class Brick:
 
         grid[self._rownum, self._colnum : self._colnum + BRICK_LENGTH] = self._brick
     
+    def clear(self,grid):
+        grid[self._rownum, self._colnum : self._colnum + BRICK_LENGTH] = np.tile(Back.RESET + ' ',BRICK_LENGTH)
+    
     def checkBrick(self):
         # to check if brick is in the same row as paddle after continuosly falling
         if self._rownum >= PADDLE_ROW -1:
@@ -174,6 +177,11 @@ def fallBricks(grid):
             brick.erase(grid)
         num += 1
         brick.fallBrick()
+
+def resetBricks(grid):
+    print("in reset")
+    for brick in headerfile.brickStructure:
+        brick.clear(grid)
 
 def checkBricksPaddle(grid):
     for brick in headerfile.brickStructure:

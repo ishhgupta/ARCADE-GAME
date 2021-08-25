@@ -1,3 +1,4 @@
+from boss import Boss, placeBombs
 import os
 import time
 import signal
@@ -28,6 +29,9 @@ obj_Paddle.placePaddle(grid)
 obj_Ball = Ball()
 obj_Ball.stickBall(grid,obj_Paddle)
 
+obj_Boss = Boss()
+# obj_Boss.placeBoss(grid)
+
 os.system('clear')
 starttime = time.time()
 levelTime = time.time()
@@ -54,14 +58,39 @@ while True:
     if limitTime > fallingLimit:
         obj_Ball.setFallBrick(True)
 
+    if levelNum == 3:
+        # obj_Boss.placeBoss(grid)
+        obj_Boss.moveBoss(grid, obj_Paddle)
+        tym = round(time.time()) - round(levelTime)
+        if tym%5 == 0:
+            obj_Boss.addBomb()
+        ret = placeBombs(grid,obj_Paddle)
+        if ret == 1:
+            os.system("killall aplay -q")
+            inpChar.show_cursor()
+            os.system('stty echo')
+            os.system('clear')
+            print("Game Over!!")
+            os.system("aplay sounds/gameover.wav -q &")
+            break
+
+
     if letter == "n" or headerfile.NUM_BRICKS == '0':
         levelNum += 1
         levelTime = time.time()
+        headerfile.NUM_BRICKS = 0
+
+        if levelNum == 3:
+            resetBricks(grid)
+            # tym = round(time.time()) - round(levelTime)
+            # if tym%5 == 0:
+            #     obj_Boss.addBomb()
 
         headerfile.brickStructure = []
-        headerfile.NUM_BRICKS = 0
-        headerfile.NUM_BRICKS = generateBrick(grid)
-        obj_Ball.setFallBrick(False)
+        if levelNum != 3:
+            headerfile.NUM_BRICKS = generateBrick(grid)
+            obj_Ball.setFallBrick(False)
+        
         obj_Paddle.initialPos(0,grid)
         obj_Paddle.placePaddle(grid)
         obj_Ball.stickBall(grid,obj_Paddle)

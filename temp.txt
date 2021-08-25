@@ -1,7 +1,0 @@
-create a flag in brick class 
-ifRainbow
-while generating for one brick do flag yes
-while printing check if flag activated ..if yes call random color change function
-if collision with rainbow brick then disable the flag
-
-{% comment %} brick sticking is remaining in levelup {% endcomment %}
